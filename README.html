@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,6 +22,35 @@
        Neutral (Charcoal):   #45474d
     */
     :root,
+    [data-theme="dark"] {
+      --bg-canvas: #121317;
+      --bg-surface: #181a20;
+      --bg-surface-alt: #20232b;
+      --bg-code: #0b0c10;
+      --bg-code-header: #15171d;
+
+      --ink-primary: #fdfdfe;
+      --ink-secondary: #c2c6d1;
+      --ink-muted: #8b909e;
+      --ink-on-accent: #fdfdfe;
+      --ink-on-dark: #fdfdfe;
+
+      --accent-primary: #537fc4;
+      --accent-hover: #6c96d8;
+      --accent-tint: rgba(83, 127, 196, 0.18);
+      --accent-tint-strong: rgba(83, 127, 196, 0.28);
+
+      --border-hairline: #292c36;
+      --border-strong: #45474d;
+
+      --status-green: #58b884;
+      --status-green-bg: rgba(88, 184, 132, 0.15);
+      --status-amber: #e2ad4b;
+      --status-amber-bg: rgba(226, 173, 75, 0.15);
+
+      --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.32), 0 14px 32px rgba(0, 0, 0, 0.28);
+    }
+
     [data-theme="light"] {
       --bg-canvas: #fdfdfe;
       --bg-surface: #f5f7fa;
@@ -49,35 +78,6 @@
       --status-amber-bg: rgba(148, 93, 0, 0.1);
 
       --shadow-card: 0 1px 2px rgba(18, 19, 23, 0.04), 0 8px 24px rgba(18, 19, 23, 0.04);
-    }
-
-    [data-theme="dark"] {
-      --bg-canvas: #121317;
-      --bg-surface: #181a20;
-      --bg-surface-alt: #1f222a;
-      --bg-code: #0b0c0f;
-      --bg-code-header: #15171c;
-
-      --ink-primary: #fdfdfe;
-      --ink-secondary: #b9bdc8;
-      --ink-muted: #8b909d;
-      --ink-on-accent: #fdfdfe;
-      --ink-on-dark: #fdfdfe;
-
-      --accent-primary: #537fc4;
-      --accent-hover: #6c96d8;
-      --accent-tint: rgba(83, 127, 196, 0.16);
-      --accent-tint-strong: rgba(83, 127, 196, 0.24);
-
-      --border-hairline: #282b34;
-      --border-strong: #45474d;
-
-      --status-green: #58b884;
-      --status-green-bg: rgba(88, 184, 132, 0.14);
-      --status-amber: #e2ad4b;
-      --status-amber-bg: rgba(226, 173, 75, 0.14);
-
-      --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.28), 0 12px 28px rgba(0, 0, 0, 0.25);
     }
 
     *,
@@ -852,7 +852,14 @@
 
       <div class="topbar-actions">
         <button type="button" class="theme-btn" id="themeToggleBtn" aria-label="Toggle color theme">
-          <span id="themeLabel">Midnight Mode</span>
+          <svg id="themeIconSun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+          <svg id="themeIconMoon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <span id="themeLabel">Light Mode</span>
         </button>
       </div>
     </div>
@@ -1226,15 +1233,32 @@
       const root = document.documentElement;
       const toggleBtn = document.getElementById("themeToggleBtn");
       const themeLabel = document.getElementById("themeLabel");
+      const sunIcon = document.getElementById("themeIconSun");
+      const moonIcon = document.getElementById("themeIconMoon");
 
       function applyTheme(next) {
         root.setAttribute("data-theme", next);
-        themeLabel.textContent = next === "light" ? "Midnight Mode" : "Antigravity Light";
+        const isDark = next === "dark";
+        themeLabel.textContent = isDark ? "Light Mode" : "Dark Mode";
+        if (sunIcon && moonIcon) {
+          sunIcon.style.display = isDark ? "inline-block" : "none";
+          moonIcon.style.display = isDark ? "none" : "inline-block";
+        }
+        try {
+          window.localStorage.setItem("typecraft.readme.theme", next);
+        } catch (e) {}
       }
 
+      let initial = "dark";
+      try {
+        const saved = window.localStorage.getItem("typecraft.readme.theme");
+        if (saved === "light" || saved === "dark") initial = saved;
+      } catch (e) {}
+      applyTheme(initial);
+
       toggleBtn.addEventListener("click", function () {
-        const current = root.getAttribute("data-theme") || "light";
-        applyTheme(current === "light" ? "dark" : "light");
+        const current = root.getAttribute("data-theme") || "dark";
+        applyTheme(current === "dark" ? "light" : "dark");
       });
 
       // Curriculum section filter
