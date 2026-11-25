@@ -4,19 +4,26 @@
   <img src="./docs/hero-banner.svg" alt="TypeCraft Academy — 100% In-Browser TypeScript Mastery Platform" width="100%" />
 </a>
 
-<br /><br />
+<br />
 
-[![TypeScript 5.9.3](https://img.shields.io/badge/TypeScript-5.9.3-537fc4?style=for-the-badge&logo=typescript&logoColor=fdfdfe)](https://www.typescriptlang.org/)
-[![React 19](https://img.shields.io/badge/React-19-121317?style=for-the-badge&logo=react&logoColor=537fc4)](https://react.dev/)
-[![Monaco Editor](https://img.shields.io/badge/Monaco-IDE-45474d?style=for-the-badge)](https://microsoft.github.io/monaco-editor/)
-[![153 Verified Challenges](https://img.shields.io/badge/Challenges-153%20Verified-537fc4?style=for-the-badge)](#-curriculum-overview-153-verified-challenges)
-[![Interactive HTML README](https://img.shields.io/badge/Open_Interactive-HTML_README-121317?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/athoskolling/TypeCraft/blob/main/README.html)
+[![🚀 OPEN INTERACTIVE HTML README](https://img.shields.io/badge/🚀_OPEN_INTERACTIVE_HTML_README-Live_Antigravity_Preview-537fc4?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/athoskolling/TypeCraft/blob/main/README.html)
+
+<br />
+
+[![TypeScript 5.9.3](https://img.shields.io/badge/TypeScript-5.9.3-121317?style=flat-square&logo=typescript&logoColor=537fc4)](https://www.typescriptlang.org/)
+[![React 19.3.1](https://img.shields.io/badge/React-19.3.1-121317?style=flat-square&logo=react&logoColor=537fc4)](https://react.dev/)
+[![Vite 8.3.8](https://img.shields.io/badge/Vite-8.3.8-45474d?style=flat-square&logo=vite&logoColor=fdfdfe)](https://vite.dev/)
+[![Monaco Editor 0.52.2](https://img.shields.io/badge/Monaco_Editor-0.52.2-45474d?style=flat-square)](https://microsoft.github.io/monaco-editor/)
+[![153 Verified Challenges](https://img.shields.io/badge/Challenges-153_Verified-537fc4?style=flat-square)](#-curriculum-overview-153-verified-challenges)
 
 <p>
   <strong>100% In-Browser Interactive TypeScript Mastery Platform</strong> — combining a Duolingo-style winding skill path, a Zed-inspired multi-file IDE (<code>Zed One Dark</code> &amp; <code>Zed One Light</code>), and a real TypeScript 5.9 3-Layer Diagnostic Engine inside Web Workers with zero backend and zero API keys.
 </p>
 
 </div>
+
+> [!TIP]
+> **Prefer the full interactive webpage version?** GitHub's file browser shows raw source code for `.html` files — click **[Open Interactive HTML README Preview →](https://htmlpreview.github.io/?https://github.com/athoskolling/TypeCraft/blob/main/README.html)** (styled in Google Antigravity's palette with theme switcher, curriculum filters, and 1-click CLI copy buttons).
 
 ---
 
