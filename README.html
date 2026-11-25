@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TypeCraft Academy — 100% In-Browser TypeScript Mastery Platform</title>
+  <meta
+    name="description"
+    content="TypeCraft Academy documentation: 100% in-browser strict TypeScript 5.9 compiler, 3-layer diagnostic engine, Duolingo-style skill path, and Zed-inspired multi-file IDE."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Google Antigravity Color Palette
+       Background (White):   #fdfdfe
+       Primary (Steel Blue): #537fc4
+       Text (Midnight Blue): #121317
+       Neutral (Charcoal):   #45474d
+    */
+    :root,
+    [data-theme="light"] {
+      --bg-canvas: #fdfdfe;
+      --bg-surface: #f5f7fa;
+      --bg-surface-alt: #edf1f7;
+      --bg-code: #121317;
+      --bg-code-header: #1a1c22;
+
+      --ink-primary: #121317;
+      --ink-secondary: #45474d;
+      --ink-muted: #686b73;
+      --ink-on-accent: #fdfdfe;
+      --ink-on-dark: #fdfdfe;
+
+      --accent-primary: #537fc4;
+      --accent-hover: #3f6ab0;
+      --accent-tint: rgba(83, 127, 196, 0.1);
+      --accent-tint-strong: rgba(83, 127, 196, 0.16);
+
+      --border-hairline: #e2e5ec;
+      --border-strong: #c8cdd8;
+
+      --status-green: #1e7a4c;
+      --status-green-bg: rgba(30, 122, 76, 0.1);
+      --status-amber: #945d00;
+      --status-amber-bg: rgba(148, 93, 0, 0.1);
+
+      --shadow-card: 0 1px 2px rgba(18, 19, 23, 0.04), 0 8px 24px rgba(18, 19, 23, 0.04);
+    }
+
+    [data-theme="dark"] {
+      --bg-canvas: #121317;
+      --bg-surface: #181a20;
+      --bg-surface-alt: #1f222a;
+      --bg-code: #0b0c0f;
+      --bg-code-header: #15171c;
+
+      --ink-primary: #fdfdfe;
+      --ink-secondary: #b9bdc8;
+      --ink-muted: #8b909d;
+      --ink-on-accent: #fdfdfe;
+      --ink-on-dark: #fdfdfe;
+
+      --accent-primary: #537fc4;
+      --accent-hover: #6c96d8;
+      --accent-tint: rgba(83, 127, 196, 0.16);
+      --accent-tint-strong: rgba(83, 127, 196, 0.24);
+
+      --border-hairline: #282b34;
+      --border-strong: #45474d;
+
+      --status-green: #58b884;
+      --status-green-bg: rgba(88, 184, 132, 0.14);
+      --status-amber: #e2ad4b;
+      --status-amber-bg: rgba(226, 173, 75, 0.14);
+
+      --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.28), 0 12px 28px rgba(0, 0, 0, 0.25);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--bg-canvas);
+      color: var(--ink-primary);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 180ms ease, color 180ms ease;
+    }
+
+    code,
+    pre,
+    kbd,
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    a {
+      color: var(--accent-primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Header */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: color-mix(in srgb, var(--bg-canvas) 88%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .topbar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink-primary);
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .brand:hover {
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .nav-links a {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      transition: color 140ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink-primary);
+      text-decoration: none;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theme-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-hairline);
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 140ms ease, background-color 140ms ease;
+    }
+
+    .theme-btn:hover {
+      border-color: var(--accent-primary);
+      background: var(--bg-surface-alt);
+    }
+
+    /* Container & Sections */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 56px 0;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 68px 0 56px;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent-primary);
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      margin: 0 0 16px;
+      font-size: clamp(34px, 4.4vw, 48px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      color: var(--ink-primary);
+    }
+
+    .hero-lead {
+      margin: 0 0 26px;
+      font-size: 16.5px;
+      line-height: 1.65;
+      color: var(--ink-secondary);
+      max-width: 58ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 42px;
+      padding: 0 20px;
+      border-radius: 8px;
+      background: var(--accent-primary);
+      color: var(--ink-on-accent);
+      font-weight: 600;
+      font-size: 14px;
+      border: 1px solid var(--accent-primary);
+      transition: background-color 140ms ease, transform 100ms ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 42px;
+      padding: 0 18px;
+      border-radius: 8px;
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+      font-weight: 500;
+      font-size: 14px;
+      border: 1px solid var(--border-hairline);
+      transition: border-color 140ms ease, background-color 140ms ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-primary);
+      background: var(--bg-surface-alt);
+      text-decoration: none;
+    }
+
+    /* Terminal Preview Card in Hero */
+    .terminal-card {
+      background: var(--bg-code);
+      color: var(--ink-on-dark);
+      border-radius: 12px;
+      border: 1px solid #2b2e37;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--bg-code-header);
+      border-bottom: 1px solid #262932;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11.5px;
+      color: #a0a5b1;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #45474d;
+    }
+
+    .terminal-dots span:first-child {
+      background: #537fc4;
+    }
+
+    .terminal-body {
+      padding: 18px;
+      margin: 0;
+      font-size: 12.5px;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+
+    .t-prompt { color: #537fc4; user-select: none; }
+    .t-comment { color: #7b808d; }
+    .t-ok { color: #67c28e; }
+    .t-muted { color: #a7acb8; }
+
+    /* Metrics Strip */
+    .metrics-strip {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .metric-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .metric-value {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--ink-primary);
+      line-height: 1.2;
+    }
+
+    .metric-label {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--ink-secondary);
+    }
+
+    /* Section Headings */
+    .section-kicker {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-primary);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--ink-primary);
+    }
+
+    .section-intro {
+      margin: 0 0 30px;
+      font-size: 15.5px;
+      color: var(--ink-secondary);
+      max-width: 68ch;
+    }
+
+    /* 3-Layer Engine Cards */
+    .layers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .layer-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 150ms ease, transform 150ms ease;
+    }
+
+    .layer-card:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .layer-badge {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: var(--accent-tint);
+      color: var(--accent-primary);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+
+    .layer-card h3 {
+      margin: 0;
+      font-size: 17.5px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--ink-primary);
+    }
+
+    .layer-path {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    .layer-list {
+      margin: 4px 0 0;
+      padding-left: 18px;
+      color: var(--ink-secondary);
+      font-size: 13.5px;
+    }
+
+    .layer-list li {
+      margin-bottom: 7px;
+    }
+
+    .layer-list code {
+      font-size: 12px;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-hairline);
+      color: var(--ink-primary);
+    }
+
+    /* Interactive Pipeline Switcher */
+    .pipeline-bar {
+      margin-top: 26px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      padding: 18px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .pipeline-steps {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+    }
+
+    .pipe-node {
+      padding: 5px 11px;
+      border-radius: 6px;
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-hairline);
+      color: var(--ink-primary);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+    }
+
+    .pipe-arrow {
+      color: var(--accent-primary);
+      font-weight: 700;
+    }
+
+    /* Curriculum Filter & Table */
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .filter-pill {
+      padding: 6px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--border-hairline);
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 140ms ease;
+    }
+
+    .filter-pill:hover {
+      border-color: var(--accent-primary);
+      color: var(--ink-primary);
+    }
+
+    .filter-pill.active {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: var(--ink-on-accent);
+    }
+
+    .table-wrap {
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      overflow-x: auto;
+      background: var(--bg-canvas);
+      box-shadow: var(--shadow-card);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    thead th {
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      font-size: 11.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--border-hairline);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--border-hairline);
+      vertical-align: top;
+      color: var(--ink-secondary);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: var(--bg-surface);
+    }
+
+    .sec-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: var(--accent-tint);
+      color: var(--accent-primary);
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 12.5px;
+    }
+
+    .cell-title {
+      color: var(--ink-primary);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .mini-files {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .mini-files code {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-hairline);
+      color: var(--ink-secondary);
+    }
+
+    .exam-chip {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11.5px;
+      padding: 2px 8px;
+      border-radius: 5px;
+      background: var(--status-green-bg);
+      color: var(--status-green);
+      font-weight: 600;
+    }
+
+    /* Two-column UX & Skip-Ahead */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .feature-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .feature-panel h3 {
+      margin: 0 0 12px;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .shortcut-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-hairline);
+      font-size: 13.5px;
+      color: var(--ink-secondary);
+      gap: 12px;
+    }
+
+    .shortcut-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    kbd {
+      display: inline-block;
+      padding: 3px 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-strong);
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+
+    .rule-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink-secondary);
+      font-size: 13.5px;
+    }
+
+    .rule-list li {
+      margin-bottom: 9px;
+    }
+
+    /* Commands Block */
+    .cmd-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 14px;
+    }
+
+    .cmd-card {
+      background: var(--bg-code);
+      color: var(--ink-on-dark);
+      border: 1px solid #2b2e37;
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cmd-meta {
+      min-width: 0;
+    }
+
+    .cmd-label {
+      font-size: 11.5px;
+      color: #9ba0ad;
+      margin-bottom: 3px;
+    }
+
+    .cmd-text {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      color: #fdfdfe;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .copy-btn {
+      flex-shrink: 0;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid #45474d;
+      background: #1b1d24;
+      color: #fdfdfe;
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 140ms ease, border-color 140ms ease;
+    }
+
+    .copy-btn:hover {
+      border-color: #537fc4;
+      background: #232732;
+    }
+
+    .copy-btn.copied {
+      border-color: #58b884;
+      color: #58b884;
+    }
+
+    /* Footer */
+    footer {
+      padding: 36px 0 48px;
+      border-top: 1px solid var(--border-hairline);
+      color: var(--ink-muted);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .palette-swatches {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .swatch {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      color: var(--ink-secondary);
+    }
+
+    .swatch-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid rgba(128, 128, 128, 0.35);
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .layers-grid,
+      .split-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .metrics-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect width="24" height="24" rx="6" fill="#537fc4" />
+          <path d="M6.5 8.5H13.5M10 8.5V16" stroke="#fdfdfe" stroke-width="2" stroke-linecap="round" />
+          <path d="M17.5 10.5C16.8 9.8 15.8 9.5 14.9 9.8C13.7 10.2 13.1 11.4 13.1 12.8C13.1 14.2 13.8 15.4 15 15.7C15.9 15.9 16.9 15.6 17.5 14.9" stroke="#fdfdfe" stroke-width="1.9" stroke-linecap="round" />
+        </svg>
+        <span>TypeCraft Academy</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Documentation sections">
+        <a href="#engine">3-Layer Engine</a>
+        <a href="#curriculum">Curriculum</a>
+        <a href="#ergonomics">IDE &amp; Skip-Ahead</a>
+        <a href="#commands">Verification CLI</a>
+      </nav>
+
+      <div class="topbar-actions">
+        <button type="button" class="theme-btn" id="themeToggleBtn" aria-label="Toggle color theme">
+          <span id="themeLabel">Midnight Mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="container">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-eyebrow">100% In-Browser · Zero Backend · Zero API Keys</div>
+            <h1>Master TypeScript with a Real Browser Compiler</h1>
+            <p class="hero-lead">
+              <strong>TypeCraft Academy</strong> pairs a Duolingo-style winding skill path with a
+              Zed-inspired multi-file Monaco IDE and a 3-layer TypeScript&nbsp;5.9.3 diagnostic
+              engine inside Web Workers. Any valid solution passes—never rigid string matching.
+            </p>
+            <div class="hero-actions">
+              <a class="btn-primary" href="#curriculum">Explore 153 Challenges</a>
+              <a class="btn-secondary" href="#commands">Run Local Verification</a>
+            </div>
+          </div>
+
+          <div class="terminal-card" aria-label="Curriculum verification summary">
+            <div class="terminal-bar">
+              <div class="terminal-dots" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <span>typecraft — verify:curriculum</span>
+            </div>
+            <pre class="terminal-body"><code><span class="t-prompt">$</span> npm run verify:curriculum
+
+<span class="t-muted">▶ Verifying Section 1..6 (strict: true)</span>
+  <span class="t-ok">✓</span> 120 phase problems compiled &amp; tested
+  <span class="t-ok">✓</span>   6 four-file mini-projects bundled
+  <span class="t-ok">✓</span>  27 cumulative exam tasks verified
+
+<span class="t-ok">Summary: 153 / 153 referenceSolutions passed</span>
+<span class="t-comment"># Vitest engine suite: 6/6 passed</span>
+<span class="t-comment"># Production build: tsc -b &amp;&amp; vite build (0 errors)</span></code></pre>
+          </div>
+        </div>
+
+        <div class="metrics-strip">
+          <div class="metric-box">
+            <div class="metric-value">153</div>
+            <div class="metric-label">Verified TypeScript challenges across 6 tiers</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">3 Layers</div>
+            <div class="metric-label">Strict compiler, Worker sandbox, logic analyzer</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">6 × 4</div>
+            <div class="metric-label">Interconnected files per Capstone Mini-Project</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">0 Keys</div>
+            <div class="metric-label">100% client-side execution &amp; localStorage sync</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-Layer Engine -->
+      <section id="engine">
+        <div class="section-kicker">Architecture</div>
+        <h2>3-Layer Diagnostic Engine</h2>
+        <p class="section-intro">
+          Every submission flows through a real TypeScript compiler, an isolated CommonJS runtime
+          worker, and a heuristic logic analyzer before delivering actionable feedback.
+        </p>
+
+        <div class="layers-grid">
+          <article class="layer-card">
+            <span class="layer-badge">LAYER 01</span>
+            <h3>Strict Compiler &amp; AST</h3>
+            <div class="layer-path">src/engine/layer1Compiler.ts</div>
+            <ul class="layer-list">
+              <li>Runs <code>ts.createProgram</code> in <code>strict: true</code> against bundled ES2023 definitions.</li>
+              <li>Evaluates compile-time assertions (<code>Expect</code>, <code>Equal</code>, <code>IsAny</code>, <code>Alike</code>).</li>
+              <li>Translates cryptic diagnostics (<code>TS2322</code>, <code>TS2339</code>, <code>TS2345</code>, <code>TS7006</code>, <code>TS2532</code>) into clear explanations.</li>
+              <li>Enforces AST rules: blocks explicit <code>any</code> / <code>@ts-ignore</code> and verifies required generics, narrowing, predicates, classes, or async usage.</li>
+            </ul>
+          </article>
+
+          <article class="layer-card">
+            <span class="layer-badge">LAYER 02</span>
+            <h3>Sandbox Web Worker</h3>
+            <div class="layer-path">src/engine/layer2Runner.ts</div>
+            <ul class="layer-list">
+              <li>Executes inside a dedicated Web Worker with a <strong>4.5s watchdog</strong> that terminates and respawns hung loops.</li>
+              <li>Bundles 4-file Mini-Projects via an in-memory CommonJS resolver with cross-file IntelliSense.</li>
+              <li>Supports <code>beecrowd</code> I/O, <code>leetcode</code> DSA, <code>type-challenge</code>, and async <code>Promise</code> harnesses.</li>
+              <li>Captures <code>console.log</code> output and verifies <code>checkImmutability</code> on input arrays/objects.</li>
+            </ul>
+          </article>
+
+          <article class="layer-card">
+            <span class="layer-badge">LAYER 03</span>
+            <h3>Smart Logic Analyzer</h3>
+            <div class="layer-path">src/engine/layer3LogicAnalyzer.ts</div>
+            <ul class="layer-list">
+              <li>Detects forgotten <code>return</code> statements when a function yields <code>undefined</code>.</li>
+              <li>Identifies in-place input array or object mutations automatically.</li>
+              <li>Flags off-by-one (<code>±1</code>) counts, boundary slices, and wrong element ordering.</li>
+              <li>Catches <code>.toFixed()</code> decimal rounding drift and Beecrowd trailing whitespace/newline mismatches.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="pipeline-bar">
+          <div class="pipeline-steps">
+            <span class="pipe-node">Editor Models</span>
+            <span class="pipe-arrow">&rarr;</span>
+            <span class="pipe-node">ts.createProgram (strict)</span>
+            <span class="pipe-arrow">&rarr;</span>
+            <span class="pipe-node">AST &amp; Type Tests</span>
+            <span class="pipe-arrow">&rarr;</span>
+            <span class="pipe-node">CJS Worker Sandbox</span>
+            <span class="pipe-arrow">&rarr;</span>
+            <span class="pipe-node">Logic Diagnosis</span>
+          </div>
+          <span style="font-size: 12.5px; color: var(--ink-muted);">
+            Any valid TypeScript implementation passes
+          </span>
+        </div>
+      </section>
+
+      <!-- Curriculum -->
+      <section id="curriculum">
+        <div class="section-kicker">Curriculum · 153 Verified Challenges</div>
+        <h2>Six Progressive Mastery Tiers</h2>
+        <p class="section-intro">
+          Each section contains <strong>5 phases &times; 4 problems</strong> (120 phase challenges),
+          one <strong>4-file Mini-Project</strong>, and a <strong>Cumulative Exam</strong> (27 exam tasks).
+        </p>
+
+        <div class="filter-row" role="tablist" aria-label="Filter curriculum sections">
+          <button type="button" class="filter-pill active" data-filter="all">All 6 Sections</button>
+          <button type="button" class="filter-pill" data-filter="foundations">Foundations &amp; Arrays (S1–S2)</button>
+          <button type="button" class="filter-pill" data-filter="types">Types &amp; Generics (S3–S4)</button>
+          <button type="button" class="filter-pill" data-filter="advanced">Architecture &amp; Type-Level (S5–S6)</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Section Focus</th>
+                <th>4-File Mini-Project</th>
+                <th>Cumulative Exam</th>
+              </tr>
+            </thead>
+            <tbody id="curriculumTableBody">
+              <tr data-group="foundations">
+                <td><span class="sec-num">S1</span></td>
+                <td>
+                  <span class="cell-title">Foundations, Control Flow &amp; I/O</span>
+                  Primitives, precision math, tax brackets, loop accumulators, multi-line stdin, tuples.
+                </td>
+                <td>
+                  <span class="cell-title">CLI Receipt, Discount &amp; Tax Engine</span>
+                  <div class="mini-files">
+                    <code>types.ts</code><code>discounts.ts</code><code>taxes.ts</code><code>engine.ts</code>
+                  </div>
+                </td>
+                <td><span class="exam-chip">Exam 1 · S1 (4 tasks)</span></td>
+              </tr>
+              <tr data-group="foundations">
+                <td><span class="sec-num">S2</span></td>
+                <td>
+                  <span class="cell-title">Functions, Strings &amp; Arrays</span>
+                  Typed callbacks, tokenization, immutable pipelines, two pointers, 2D grids &amp; multi-key sorting.
+                </td>
+                <td>
+                  <span class="cell-title">Server Log Analyzer &amp; CSV Pipeline</span>
+                  <div class="mini-files">
+                    <code>types.ts</code><code>parser.ts</code><code>aggregator.ts</code><code>pipeline.ts</code>
+                  </div>
+                </td>
+                <td><span class="exam-chip">Exam 2 · S1–S2 (4 tasks)</span></td>
+              </tr>
+              <tr data-group="types">
+                <td><span class="sec-num">S3</span></td>
+                <td>
+                  <span class="cell-title">Objects, Interfaces, Unions &amp; Narrowing</span>
+                  Readonly records, discriminated unions, <code>never</code> exhaustiveness, type predicates, mapped lookups.
+                </td>
+                <td>
+                  <span class="cell-title">Task Workflow State Machine</span>
+                  <div class="mini-files">
+                    <code>types.ts</code><code>guards.ts</code><code>transitions.ts</code><code>machine.ts</code>
+                  </div>
+                </td>
+                <td><span class="exam-chip">Exam 3 · S1–S3 (4 tasks)</span></td>
+              </tr>
+              <tr data-group="types">
+                <td><span class="sec-num">S4</span></td>
+                <td>
+                  <span class="cell-title">Generics &amp; Data Structures</span>
+                  Inference, <code>extends</code> constraints, Maps/Sets, monotonic stacks, bounded queues, BFS &amp; topological sort.
+                </td>
+                <td>
+                  <span class="cell-title">Typed LRU Cache &amp; Query Engine</span>
+                  <div class="mini-files">
+                    <code>types.ts</code><code>lruCache.ts</code><code>queryEngine.ts</code><code>index.ts</code>
+                  </div>
+                </td>
+                <td><span class="exam-chip">Exam 4 · S1–S4 (5 tasks)</span></td>
+              </tr>
+              <tr data-group="advanced">
+                <td><span class="sec-num">S5</span></td>
+                <td>
+                  <span class="cell-title">Classes, Architecture &amp; Async TypeScript</span>
+                  Encapsulation, Strategy/Builder patterns, typed <code>EventBus</code>, retry/timeout combinators, semaphores.
+                </td>
+                <td>
+                  <span class="cell-title">Async Job Queue &amp; Rate Limiter</span>
+                  <div class="mini-files">
+                    <code>types.ts</code><code>rateLimiter.ts</code><code>retryPolicy.ts</code><code>jobQueue.ts</code>
+                  </div>
+                </td>
+                <td><span class="exam-chip">Exam 5 · S1–S5 (5 tasks)</span></td>
+              </tr>
+              <tr data-group="advanced">
+                <td><span class="sec-num">S6</span></td>
+                <td>
+                  <span class="cell-title">Advanced Type-Level TS &amp; Algorithms</span>
+                  Distributive conditionals, template literals, key remapping, DP, Trie, Dijkstra &amp; Union-Find.
+                </td>
+                <td>
+                  <span class="cell-title">Mini Schema Validator (mini-zod)</span>
+                  <div class="mini-files">
+                    <code>types.ts</code><code>primitives.ts</code><code>composites.ts</code><code>index.ts</code>
+                  </div>
+                </td>
+                <td><span class="exam-chip">Exam 6 · S1–S6 (5 tasks)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Ergonomics & Skip Ahead -->
+      <section id="ergonomics">
+        <div class="section-kicker">Developer Experience</div>
+        <h2>Zed IDE Ergonomics &amp; Skip-Ahead Rules</h2>
+        <p class="section-intro">
+          Designed for rapid keyboard-first iteration while preserving full progression control for
+          both newcomers and experienced TypeScript engineers.
+        </p>
+
+        <div class="split-grid">
+          <div class="feature-panel">
+            <h3>Keyboard Shortcuts &amp; Persistence</h3>
+            <div class="shortcut-row">
+              <span>Compile, AST check &amp; run sandbox tests</span>
+              <kbd>Ctrl / Cmd + Enter</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span>Open Zed Command Palette</span>
+              <kbd>Ctrl / Cmd + K</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span>Toggle Zed One Dark / Zed One Light</span>
+              <kbd>Header Theme Toggle</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span>LocalStorage Backup &amp; Restore</span>
+              <kbd>Export / Import JSON</kbd>
+            </div>
+          </div>
+
+          <div class="feature-panel">
+            <h3>Skip-Ahead &amp; Early Access Gates</h3>
+            <ul class="rule-list">
+              <li>
+                <strong>Jump Here (Cumulative Exam):</strong> Available on every locked section.
+                Hints are disabled during exams to ensure genuine mastery.
+              </li>
+              <li>
+                <strong>Tested Out Status:</strong> Passing a higher section's Cumulative Exam
+                immediately unlocks that section and marks all prior sections as <em>Tested Out</em>
+                (still playable anytime).
+              </li>
+              <li>
+                <strong>Try Mini-Project Early:</strong> Inspect and build any section's 4-file
+                architecture workspace before unlocking its phase track.
+              </li>
+              <li>
+                <strong>Bottom Dock:</strong> Switch seamlessly between <em>Test Results &amp; Diagnostics</em>,
+                <em>Console</em>, and <em>Custom Input / Playground</em>.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Commands -->
+      <section id="commands">
+        <div class="section-kicker">Local Workflow</div>
+        <h2>Development &amp; Verification Commands</h2>
+        <p class="section-intro">
+          Every curriculum file, reference solution, unit test, and strict production build can be
+          verified locally from the CLI.
+        </p>
+
+        <div class="cmd-grid">
+          <div class="cmd-card">
+            <div class="cmd-meta">
+              <div class="cmd-label">Install dependencies</div>
+              <div class="cmd-text">npm install</div>
+            </div>
+            <button type="button" class="copy-btn" data-cmd="npm install">Copy</button>
+          </div>
+
+          <div class="cmd-card">
+            <div class="cmd-meta">
+              <div class="cmd-label">Start local Vite dev server</div>
+              <div class="cmd-text">npm run dev</div>
+            </div>
+            <button type="button" class="copy-btn" data-cmd="npm run dev">Copy</button>
+          </div>
+
+          <div class="cmd-card">
+            <div class="cmd-meta">
+              <div class="cmd-label">Run engine &amp; state unit tests (Vitest)</div>
+              <div class="cmd-text">npm test</div>
+            </div>
+            <button type="button" class="copy-btn" data-cmd="npm test">Copy</button>
+          </div>
+
+          <div class="cmd-card">
+            <div class="cmd-meta">
+              <div class="cmd-label">Verify all 153 solutions &amp; 6 mini-projects</div>
+              <div class="cmd-text">npm run verify:curriculum</div>
+            </div>
+            <button type="button" class="copy-btn" data-cmd="npm run verify:curriculum">Copy</button>
+          </div>
+
+          <div class="cmd-card">
+            <div class="cmd-meta">
+              <div class="cmd-label">Strict TypeScript check &amp; production build</div>
+              <div class="cmd-text">npm run build</div>
+            </div>
+            <button type="button" class="copy-btn" data-cmd="npm run build">Copy</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <strong>TypeCraft Academy</strong> &mdash; Vite &middot; React 19 &middot; TypeScript 5.9.3 &middot; Monaco Editor &middot; Vitest
+      </div>
+      <div class="palette-swatches" aria-label="Google Antigravity color palette tokens">
+        <span class="swatch"><span class="swatch-dot" style="background:#fdfdfe"></span>#fdfdfe</span>
+        <span class="swatch"><span class="swatch-dot" style="background:#537fc4"></span>#537fc4</span>
+        <span class="swatch"><span class="swatch-dot" style="background:#121317"></span>#121317</span>
+        <span class="swatch"><span class="swatch-dot" style="background:#45474d"></span>#45474d</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggleBtn = document.getElementById("themeToggleBtn");
+      const themeLabel = document.getElementById("themeLabel");
+
+      function applyTheme(next) {
+        root.setAttribute("data-theme", next);
+        themeLabel.textContent = next === "light" ? "Midnight Mode" : "Antigravity Light";
+      }
+
+      toggleBtn.addEventListener("click", function () {
+        const current = root.getAttribute("data-theme") || "light";
+        applyTheme(current === "light" ? "dark" : "light");
+      });
+
+      // Curriculum section filter
+      const filterButtons = document.querySelectorAll(".filter-pill");
+      const rows = document.querySelectorAll("#curriculumTableBody tr");
+
+      filterButtons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const target = btn.getAttribute("data-filter");
+          filterButtons.forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+
+          rows.forEach(function (row) {
+            const group = row.getAttribute("data-group");
+            row.style.display = target === "all" || target === group ? "" : "none";
+          });
+        });
+      });
+
+      // Copy CLI command buttons
+      document.querySelectorAll(".copy-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const cmd = btn.getAttribute("data-cmd") || "";
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(cmd).then(function () {
+              btn.textContent = "Copied";
+              btn.classList.add("copied");
+              window.setTimeout(function () {
+                btn.textContent = "Copy";
+                btn.classList.remove("copied");
+              }, 1600);
+            });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
