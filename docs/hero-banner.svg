@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 340" width="1120" height="340" role="img" aria-label="TypeCraft Academy — 100% In-Browser TypeScript Mastery Platform">
+  <defs>
+    <clipPath id="cardClip">
+      <rect x="0" y="0" width="1120" height="340" rx="16" />
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#cardClip)">
+    <!-- Background: Google Antigravity White (#fdfdfe) -->
+    <rect x="0" y="0" width="1120" height="340" fill="#fdfdfe" />
+    <rect x="0.5" y="0.5" width="1119" height="339" rx="16" fill="none" stroke="#e2e5ec" stroke-width="1" />
+
+    <!-- Top Steel Blue accent bar -->
+    <rect x="0" y="0" width="1120" height="4" fill="#537fc4" />
+
+    <!-- Left Content Column -->
+    <g transform="translate(48, 48)">
+      <!-- Brand Mark -->
+      <rect x="0" y="0" width="38" height="38" rx="9" fill="#537fc4" />
+      <path d="M10 13.5H21.5M15.75 13.5V25.5" stroke="#fdfdfe" stroke-width="2.6" stroke-linecap="round" />
+      <path d="M27.5 16.5C26.4 15.4 24.8 15 23.4 15.5C21.6 16.1 20.6 18 20.6 20.2C20.6 22.4 21.7 24.2 23.6 24.7C25 25 26.5 24.5 27.5 23.4" stroke="#fdfdfe" stroke-width="2.4" stroke-linecap="round" fill="none" />
+
+      <text x="52" y="17" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.2" fill="#537fc4">100% IN-BROWSER · ZERO BACKEND · ZERO API KEYS</text>
+      <text x="52" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#45474d">Vite · React 19 · TypeScript 5.9.3 · Monaco Editor</text>
+
+      <!-- Main Title -->
+      <text x="0" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="42" font-weight="700" letter-spacing="-1" fill="#121317">TypeCraft Academy</text>
+
+      <!-- Subtitle -->
+      <text x="0" y="132" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#45474d">Duolingo-style winding skill path + Zed-inspired multi-file IDE</text>
+      <text x="0" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#45474d">powered by a real 3-layer strict TypeScript compiler in Web Workers.</text>
+
+      <!-- Stat Pills -->
+      <g transform="translate(0, 186)">
+        <rect x="0" y="0" width="138" height="58" rx="9" fill="#f5f7fa" stroke="#e2e5ec" />
+        <text x="16" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#121317">153</text>
+        <text x="16" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#45474d">Verified Challenges</text>
+
+        <rect x="150" y="0" width="138" height="58" rx="9" fill="#f5f7fa" stroke="#e2e5ec" />
+        <text x="166" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#537fc4">3 Layers</text>
+        <text x="166" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#45474d">Compiler · AST · Logic</text>
+
+        <rect x="300" y="0" width="138" height="58" rx="9" fill="#f5f7fa" stroke="#e2e5ec" />
+        <text x="316" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#121317">6 × 4</text>
+        <text x="316" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#45474d">File Mini-Projects</text>
+
+        <rect x="450" y="0" width="138" height="58" rx="9" fill="#f5f7fa" stroke="#e2e5ec" />
+        <text x="466" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#121317">6 Exams</text>
+        <text x="466" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#45474d">Skip-Ahead Gates</text>
+      </g>
+    </g>
+
+    <!-- Right Midnight Blue (#121317) Terminal Card -->
+    <g transform="translate(672, 42)">
+      <rect x="0" y="0" width="400" height="256" rx="12" fill="#121317" stroke="#45474d" stroke-width="1" />
+      <rect x="0" y="0" width="400" height="36" rx="12" fill="#1a1c22" />
+      <rect x="0" y="24" width="400" height="12" fill="#1a1c22" />
+      <line x1="0" y1="36" x2="400" y2="36" stroke="#282b34" stroke-width="1" />
+
+      <circle cx="18" cy="18" r="4.5" fill="#537fc4" />
+      <circle cx="33" cy="18" r="4.5" fill="#45474d" />
+      <circle cx="48" cy="18" r="4.5" fill="#45474d" />
+      <text x="200" y="22" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#9ea3b0">typecraft — verify:curriculum</text>
+
+      <text x="20" y="66" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" fill="#537fc4">$</text>
+      <text x="34" y="66" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" fill="#fdfdfe">npm run verify:curriculum</text>
+
+      <text x="20" y="96" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#9ea3b0">▶ Verifying Section 1..6 (strict: true)</text>
+      <text x="26" y="122" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#67c28e">✓</text>
+      <text x="44" y="122" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#fdfdfe">120 phase problems compiled &amp; tested</text>
+
+      <text x="26" y="146" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#67c28e">✓</text>
+      <text x="44" y="146" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#fdfdfe">  6 four-file mini-projects bundled</text>
+
+      <text x="26" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#67c28e">✓</text>
+      <text x="44" y="170" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#fdfdfe"> 27 cumulative exam tasks verified</text>
+
+      <line x1="20" y1="190" x2="380" y2="190" stroke="#282b34" stroke-width="1" />
+      <text x="20" y="214" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="600" fill="#67c28e">153 / 153 referenceSolutions passed</text>
+      <text x="20" y="236" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#8b909d"># Vitest: 6/6 · tsc -b &amp;&amp; vite build: 0 errors</text>
+    </g>
+  </g>
+</svg>
