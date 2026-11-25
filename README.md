@@ -82,6 +82,10 @@ Each of the **6 Sections** includes **5 Phases × 4 Problems (120 Phase Problems
 ## Development & Verification Commands
 
 ```bash
+# Clone the repository
+git clone https://github.com/athoskolling/TypeCraft.git
+cd TypeCraft
+
 # Install dependencies
 npm install
 
